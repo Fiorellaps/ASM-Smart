@@ -1,0 +1,22 @@
+npm install -g npm@latest
+npm -v
+npx -v
+6.14.13
+
+npx create-react-app react-frontend --template typescript
+cd react-frontend
+npm install @mui/material @emotion/react @emotion/styled
+npm start
+
+mkdir fastapi-backend
+cd fastapi-backend
+python -m venv fastapi-venv
+fastapi-venv\Scripts\activate #source venv/bin/activate en Linux
+pip install fastapi uvicorn
+uvicorn main:app --reload
+
+
+python --version
+Python 3.9.6
+
+npm install react-router-dom
