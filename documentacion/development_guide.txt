@@ -13,8 +13,7 @@ cd fastapi-backend
 python -m venv fastapi-venv
 fastapi-venv\Scripts\activate #source venv/bin/activate en Linux
 pip install fastapi uvicorn
-uvicorn main:app --reload
-
+uvicorn src.main:app --reload
 
 python --version
 Python 3.9.6

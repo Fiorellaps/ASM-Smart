@@ -10,6 +10,7 @@ import {
 } from "react-router-dom";
 import Login from "./components/Login";
 import MainDashboard from "./pages/MainDashboard";
+import MainLayout from "./layouts/MainLayout";
 
 function App() {
   return (
@@ -29,7 +30,14 @@ function App() {
             element={
               // Add your authentication check here
               // For example, render MainDashboard if authenticated, otherwise redirect to login
-              true ? <MainDashboard /> : <Navigate to="/login" />
+
+              true ? (
+                <MainLayout>
+                  <MainDashboard />
+                </MainLayout>
+              ) : (
+                <Navigate to="/login" />
+              )
             }
           />
           <Route path="*" element={<Navigate to="/login" />} />
