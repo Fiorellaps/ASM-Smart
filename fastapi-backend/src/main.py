@@ -26,7 +26,8 @@ def login(request: LoginRequest):
     # Replace this with your actual authentication logic
     print("username", request.username)
     print("password", request.password)
-    if request.username == "admin" and request.password == "password":
-        return {"message": "Login successful"}
+    if request.username == "test" and request.password == "password":
+        user = {"username": request.username, "roles": ["admin"], "tags": ["all"]}
+        return user
     else:
         raise HTTPException(status_code=401, detail="Invalid credentials")
