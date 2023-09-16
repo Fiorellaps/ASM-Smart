@@ -1,13 +1,11 @@
-import { MemberDetailEntity } from "./users.vm";
-import { getUsers as getMemberDetailApi } from "./users.api";
-import { mapMemberFromApiToVm } from "./users.mapper";
+import { UserDetailEntity } from "./users.vm";
+import { getUsers as getUserDetailApi } from "./users.api";
+import { mapUserCollectionFromApiToVm } from "./users.mapper";
 
-export const getMemberCollection = (
-  id: string
-): Promise<MemberDetailEntity> => {
-  return new Promise<MemberDetailEntity>((resolve) => {
-    getMemberDetailApi(id).then((result) => {
-      resolve(mapMemberFromApiToVm(result));
+export const getUserCollection = (): Promise<UserDetailEntity[]> => {
+  return new Promise<UserDetailEntity[]>((resolve) => {
+    getUserDetailApi().then((result) => {
+      resolve(mapUserCollectionFromApiToVm(result));
     });
   });
 };

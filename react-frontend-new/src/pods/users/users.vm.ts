@@ -1,11 +1,11 @@
-export interface MemberDetailEntity {
-  userName: string;
+export interface UserDetailEntity {
+  username: string;
   roles: String[];
   tags: String[];
 }
 
-export const createDefaultMemberDetail = () => ({
-  userName: "",
-  roles: [],
+export const createDefaultUserDetail = () => ({
+  username: "",
+  F: [],
   tags: [],
 });

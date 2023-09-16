@@ -1,0 +1,7 @@
+#### Column visivility
+
+https://www.material-react-table.com/docs/guides/column-hiding
+
+### Groups
+
+https://www.material-react-table.com/docs/guides/aggregation-and-grouping#aggregation-grouping-example

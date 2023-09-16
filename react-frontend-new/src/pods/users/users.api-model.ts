@@ -1,5 +1,5 @@
-export interface MemberUserEntityApi {
-  userName: string;
+export interface UserEntityApi {
+  username: string;
   roles: String[];
   tags: String[];
 }
