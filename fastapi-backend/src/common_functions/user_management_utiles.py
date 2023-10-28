@@ -1,42 +1,8 @@
-from fastapi import FastAPI, HTTPException
-
 import hashlib
-import os
 import secrets
-import pandas as pd
-import pyodbc
+from fastapi import HTTPException
 
-def connect_to_oracle():
-    # Definir parámetros de conexión
-    server = "192.168.7.128"  # e.g., "localhost" or "your_server_name\instance_name"
-    database = "UserManagement"
-    username = "sa"
-    password = "P@ssw0rd"
-
-    # Definición de string de conexión
-    connection_string = f"DRIVER={{SQL Server}};SERVER={server};DATABASE={database};UID={username};PWD={password}"
-
-    # Conexión a la base de datos
-    connection = pyodbc.connect(connection_string)
-    return connection
-
-def query_oracle_select(connection, query):
-    print("query", query)
-    result_df = pd.read_sql(query, connection)
-
-    return result_df
-
-
-def query_oracle_insert(connection, query):
-    cursor = connection.cursor()
-    print("query", query)
-    
-    cursor.execute(query)
-
-    # Commit the transaction
-    connection.commit()
-    cursor.close()
-
+from oracle_utiles import query_oracle_insert, query_oracle_select
 
 def create_user(connection, username, password):
     # Crear hex aleatorio
@@ -57,7 +23,7 @@ def create_user(connection, username, password):
 
     
 def check_user(connection, username, password):    
-    query = f"Select * from Usuarios  where Username = '{username}'"
+    query = f"Select * from Usuarios where Username = '{username}'"
     query_result = query_oracle_select(connection, query)
 
     if(query_result.empty):
@@ -65,24 +31,35 @@ def check_user(connection, username, password):
     else:
         print("Existe el usuario")
         password_hashed = query_result['PasswordHash'].iloc[0]
-        print(password_hashed)
+
         salt_hex = query_result['Salt'].iloc[0]
-        print(salt_hex)
         salt = bytes.fromhex(salt_hex)
         
         given_password_salt = password.encode() + salt
     
         # Crear hash
         given_sha256_hash = hashlib.sha256(given_password_salt).hexdigest()
-        print(given_sha256_hash)
+
         if given_sha256_hash == password_hashed:
             print("Contraseña correcta!")
-            user = {"username": username, "roles": ["admin"], "tags": ["all"]}
+
+            query = f"select * from Usuarios_tags where username = '{username}'"
+            tags = query_oracle_select(connection, query)['Tag']
+            tags = list(tags)
+            
+            query = f"select * from Usuarios_roles where username = '{username}'"
+            roles = query_oracle_select(connection, query)['Rol']
+            roles = list(roles)
+
+            email = query_result['Email'].iloc[0]
+            active = 1 if query_result['Active'].iloc[0] else 0
+            id = str(query_result['Id'].iloc[0])
+
+            user = {"userName": username, "roles": roles, "tags": tags, "email": email, "active": active, "id": id}
+
             return user
         
         else:
             print("Contraseña incorrecta!")
             raise HTTPException(status_code=401, detail="Invalid credentials")
-        
-
         

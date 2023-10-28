@@ -15,7 +15,12 @@ export const doLogin = (
       .then((response) => response.json())
       .then((data) => {
         if (data.username) {
-          resolve(data);
+          if (data.active == 1) {
+            resolve(data);
+          } else {
+            console.error("Usuario no activo");
+            resolve(false);
+          }
         } else {
           console.error("Usuario o contraseña incorrectos", data.detail);
           resolve(false);

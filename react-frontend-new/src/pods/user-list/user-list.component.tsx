@@ -1,23 +1,22 @@
 import React, { useMemo } from "react";
 import { Link } from "react-router-dom";
 import { routes } from "core";
-import { UserDetailEntity } from "./users.vm";
-import List from "@mui/material/List";
-import ListItem from "@mui/material/ListItem";
-import Divider from "@mui/material/Divider";
-import ListItemText from "@mui/material/ListItemText";
-import ListItemButton from "@mui/material/ListItemButton";
-import { styled } from "@mui/system";
-
+import { UserEntity } from "./user-list.vm";
 import { MaterialReactTable } from "material-react-table";
-import { Box, Button, ListItemIcon, MenuItem, Typography } from "@mui/material";
-import { AccountCircle, Delete, GroupAdd } from "@mui/icons-material";
+import {
+  Box,
+  ListItemIcon,
+  MenuItem,
+  Typography,
+  Tooltip,
+} from "@mui/material";
+import { ModeEdit, Delete, GroupAdd } from "@mui/icons-material";
 
 interface Props {
-  users: UserDetailEntity[];
+  users: UserEntity[];
 }
 
-export const UserComponent: React.FC<Props> = (props) => {
+export const UserListComponent: React.FC<Props> = (props) => {
   const { users } = props;
 
   const columns = useMemo(
@@ -27,6 +26,43 @@ export const UserComponent: React.FC<Props> = (props) => {
         header: "Usuario",
         enableClickToCopy: true,
         columns: [
+          {
+            accessorKey: "active",
+            header: "Estado",
+            size: 100,
+            Cell: ({ cell }) => {
+              const box_result = cell.getValue() ? (
+                <Box
+                  component="span"
+                  sx={(theme) => ({
+                    backgroundColor: theme.palette.success.dark,
+                    borderRadius: "0.25rem",
+                    color: "#fff",
+                    maxWidth: "9ch",
+                    margin: "0.5em",
+                    padding: "0.25rem",
+                  })}
+                >
+                  Activo
+                </Box>
+              ) : (
+                <Box
+                  component="span"
+                  sx={(theme) => ({
+                    backgroundColor: theme.palette.error.dark,
+                    borderRadius: "0.25rem",
+                    color: "#fff",
+                    maxWidth: "9ch",
+                    margin: "0.5em",
+                    padding: "0.25rem",
+                  })}
+                >
+                  Inactivo
+                </Box>
+              );
+              return box_result;
+            },
+          },
           {
             accessorFn: (row) => `${row.username}`, //accessorFn used to join multiple data into a single cell
             id: "username", //id is still required when using accessorFn instead of accessorKey
@@ -40,31 +76,39 @@ export const UserComponent: React.FC<Props> = (props) => {
                   gap: "1rem",
                 }}
               >
-                {/*<img
-                  alt="avatar"
-                  height={30}
-                  src={row.original.avatar}
-                  loading="lazy"
-                  style={{ borderRadius: "50%" }}
-              />*/}
-                {/* using renderedCellValue instead of cell.getValue() preserves filter match highlighting */}
                 <span>{renderedCellValue}</span>
               </Box>
             ),
           },
+          /* {
+            accessorFn: (row) => `${row.email}`, //accessorFn used to join multiple data into a single cell
+            id: "email", //id is still required when using accessorFn instead of accessorKey
+            header: "Correo",
+            size: 250,
+            Cell: ({ renderedCellValue, row }) => (
+              <Box
+                sx={{
+                  display: "flex",
+                  alignItems: "center",
+                  gap: "1rem",
+                }}
+              >
+                <span>{renderedCellValue}</span>
+              </Box>
+            ),
+          },*/
+
           {
             accessorKey: "roles",
             header: "Roles",
-            size: 500,
+            size: 100,
             //custom conditional format and styling
             Cell: ({ cell }) => {
               let box_list = [];
 
               const roles_list = cell.getValue();
-              console.log("roles_list", roles_list);
               const max_boxes = 4;
               for (let i = 0; i < roles_list.length; i++) {
-                console.log("cell i", roles_list[i]);
                 if (i < max_boxes) {
                   box_list.push(
                     <Box
@@ -100,18 +144,14 @@ export const UserComponent: React.FC<Props> = (props) => {
         columns: [
           {
             accessorKey: "tags",
-            // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
-            //filterFn: "between",
             header: "Tags",
-            size: 500,
-            //custom conditional format and styling
+            size: 350,
             Cell: ({ cell }) => {
               let box_list = [];
 
               const tags_list = cell.getValue();
               const max_boxes = 4;
               for (let i = 0; i < tags_list.length; i++) {
-                console.log("cell i", tags_list[i]);
                 if (i < max_boxes) {
                   box_list.push(
                     <Box
@@ -129,7 +169,7 @@ export const UserComponent: React.FC<Props> = (props) => {
                     </Box>
                   );
                 } else {
-                  break; // Rompe el bucle si ya ha superado el max_boxes
+                  break;
                 }
               }
               return (
@@ -147,26 +187,26 @@ export const UserComponent: React.FC<Props> = (props) => {
         columns: [
           {
             accessorKey: "acciones",
-            // filterVariant: 'range', //if not using filter modes feature, use this instead of filterFn
-            //filterFn: "between",
-
             enableColumnFilter: false,
             header: "",
             size: 200,
             //custom conditional format and styling
             Cell: ({ cell }) => (
               <Box display="flex" flexDirection="row">
-                <ListItemIcon>
-                  <MenuItem to={routes.list} component={Link}>
-                    <AccountCircle />
-                  </MenuItem>
-                </ListItemIcon>
-
-                <ListItemIcon>
-                  <MenuItem to={routes.list} component={Link}>
-                    <Delete />
-                  </MenuItem>
-                </ListItemIcon>
+                <Tooltip title="Editar">
+                  <ListItemIcon>
+                    <MenuItem to={routes.list} component={Link}>
+                      <ModeEdit />
+                    </MenuItem>
+                  </ListItemIcon>
+                </Tooltip>
+                <Tooltip title="Eliminar">
+                  <ListItemIcon>
+                    <MenuItem to={routes.list} component={Link}>
+                      <Delete />
+                    </MenuItem>
+                  </ListItemIcon>
+                </Tooltip>
               </Box>
             ),
           },
@@ -198,7 +238,7 @@ export const UserComponent: React.FC<Props> = (props) => {
           </MenuItem>
         </ListItemIcon>
       </Box>
-
+      {console.log("users", users)}
       <MaterialReactTable
         columns={columns}
         data={users}
@@ -206,8 +246,6 @@ export const UserComponent: React.FC<Props> = (props) => {
         enableColumnOrdering
         enableGrouping
         enablePinning
-        //enableRowActions
-        //enableRowSelection
         initialState={{ showColumnFilters: true }}
         positionToolbarAlertBanner="bottom"
         renderDetailPanel={({ row }) => (
@@ -224,69 +262,6 @@ export const UserComponent: React.FC<Props> = (props) => {
             </Box>
           </Box>
         )}
-        /*renderRowActionMenuItems={({ closeMenu }) => [
-          <MenuItem
-            key={0}
-            onClick={() => {
-              // View profile logic...
-              closeMenu();
-            }}
-            sx={{ m: 0 }}
-          >
-            <ListItemIcon>
-              <AccountCircle />
-            </ListItemIcon>
-            Editar
-          </MenuItem>,
-          <MenuItem
-            key={1}
-            onClick={() => {
-              // DeleteIcon  email logic...
-              closeMenu();
-            }}
-            sx={{ m: 0 }}
-          >
-            <ListItemIcon>
-              <DeleteIcon />
-            </ListItemIcon>
-            Eliminar
-          </MenuItem>,
-        ]}
-        */
-        /*renderTopToolbarCustomActions={({ table }) => {
-          const handleDeactivate = () => {
-            table.getSelectedRowModel().flatRows.map((row) => {
-              alert("deactivating " + row.getValue("name"));
-            });
-          };
-
-          const handleActivate = () => {
-            table.getSelectedRowModel().flatRows.map((row) => {
-              alert("activating " + row.getValue("name"));
-            });
-          };
-
-          return (
-            <div style={{ display: "flex", gap: "0.5rem" }}>
-              <Button
-                color="error"
-                disabled={!table.getIsSomeRowsSelected()}
-                onClick={handleDeactivate}
-                variant="contained"
-              >
-                Desactivar
-              </Button>
-              <Button
-                color="success"
-                disabled={!table.getIsSomeRowsSelected()}
-                onClick={handleActivate}
-                variant="contained"
-              >
-                Activar
-              </Button>
-            </div>
-          );
-        }}*/
       />
     </>
   );

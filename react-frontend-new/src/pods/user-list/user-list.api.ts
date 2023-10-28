@@ -1,4 +1,4 @@
-import { UserEntityApi } from "./users.api-model";
+import { UserEntityApi } from "./user-list.api-model";
 
 export const getUsers = (): Promise<UserEntityApi[]> => {
   const promise = new Promise<UserEntityApi[]>((resolve, reject) => {
@@ -9,7 +9,6 @@ export const getUsers = (): Promise<UserEntityApi[]> => {
       .then((response) => response.json())
       .then((data) => {
         if (data) {
-          console.log("Data", data);
           resolve(data);
         } else {
           console.error("Error recogiendo usuarios de la base de datos");
