@@ -1,50 +1,31 @@
-// src/App.tsx
-import React from "react";
+import React from 'react';
+import { StyledEngineProvider } from '@mui/material';
+import { setValidatorsMessagesToSpanish } from 'core/i18n';
+import { RouterComponent } from 'core/router';
+import { ThemeProviderComponent } from 'core/theme';
+import { AuthProvider } from 'common-app/auth';
 import {
-  BrowserRouter as Router,
-  Routes,
-  Route,
-  Link,
-  Outlet,
-  Navigate,
-} from "react-router-dom";
-import Login from "./components/Login";
-import MainDashboard from "./pages/MainDashboard";
-import MainLayout from "./layouts/MainLayout";
+  SnackbarComponent,
+  SnackbarProvider,
+  SpinnerComponent,
+} from 'common/components';
 
-function App() {
+setValidatorsMessagesToSpanish();
+
+const App: React.FunctionComponent = () => {
   return (
-    <Router>
-      <div
-        style={{
-          display: "flex",
-          justifyContent: "center",
-          alignItems: "center",
-          height: "100vh",
-        }}
-      >
-        <Routes>
-          <Route path="/login" element={<Login />} />
-          <Route
-            path="/dashboard"
-            element={
-              // Add your authentication check here
-              // For example, render MainDashboard if authenticated, otherwise redirect to login
-
-              true ? (
-                <MainLayout>
-                  <MainDashboard />
-                </MainLayout>
-              ) : (
-                <Navigate to="/login" />
-              )
-            }
-          />
-          <Route path="*" element={<Navigate to="/login" />} />
-        </Routes>
-      </div>
-    </Router>
+    <StyledEngineProvider injectFirst>
+      <ThemeProviderComponent>
+        <AuthProvider>
+          <SnackbarProvider>
+            <SpinnerComponent />
+            <RouterComponent />
+            <SnackbarComponent />
+          </SnackbarProvider>
+        </AuthProvider>
+      </ThemeProviderComponent>
+    </StyledEngineProvider>
   );
-}
+};
 
 export default App;

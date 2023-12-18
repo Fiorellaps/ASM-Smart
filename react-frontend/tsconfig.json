@@ -1,26 +1,26 @@
 {
   "compilerOptions": {
-    "target": "es5",
-    "lib": [
-      "dom",
-      "dom.iterable",
-      "esnext"
-    ],
+    "target": "es6",
+    "module": "es6",
+    "moduleResolution": "node",
+    "declaration": false,
+    "noImplicitAny": false,
+    "sourceMap": true,
+    "jsx": "react",
+    "noLib": false,
     "allowJs": true,
+    "suppressImplicitAnyIndexErrors": true,
     "skipLibCheck": true,
     "esModuleInterop": true,
-    "allowSyntheticDefaultImports": true,
-    "strict": true,
-    "forceConsistentCasingInFileNames": true,
-    "noFallthroughCasesInSwitch": true,
-    "module": "esnext",
-    "moduleResolution": "node",
-    "resolveJsonModule": true,
-    "isolatedModules": true,
-    "noEmit": true,
-    "jsx": "react-jsx"
+    "baseUrl": "./src/",
+    "paths": {
+      "common-app": ["common-app"],
+      "common": ["common"],
+      "core": ["core"],
+      "layouts": ["layouts"],
+      "pods": ["pods"],
+      "scenes": ["scenes"]
+    }
   },
-  "include": [
-    "src"
-  ]
+  "include": ["./src/**/*", "./config/test/setup.ts", "./global.types.d.ts"]
 }
