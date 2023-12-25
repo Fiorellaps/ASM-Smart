@@ -5,6 +5,7 @@ import { TestListFullComponent } from './test-list.component_full';
 import { TestListLiteComponent } from './test-list.component_lite';
 
 import { getTestCollection } from './test-list.repository';
+import { test_list_mocked_data } from './test-list.mock.data';
 
 import { useSnackbarContext } from 'common/components';
 import { trackPromise } from 'react-promise-tracker';
@@ -22,7 +23,6 @@ import {
   Grid,
   TextField,
   Button,
-  CardHeader,
   Typography,
   Accordion,
   AccordionSummary,
@@ -46,28 +46,7 @@ export const TestListContainer: React.FunctionComponent = () => {
   const [selectedEndDate, setSelectedEndDate] = React.useState(initialEndDate);
   const [refreshInterval, setRefreshInterval] = React.useState('60000');
 
-  const [tests, setTests] = React.useState<TestEntity[]>([
-    {
-      name: 'Selenium',
-      data: [
-        {
-          idTest: '000',
-          porcentajeCorrecto: '-%',
-          totalCorrecto: 171,
-          totalError: 0,
-          total: 171,
-          fechaCalculo: '2023-11-05T22:41:00',
-          activo: true,
-          fechaUltimaEjecucion: '2023-11-05T22:34:39',
-          duracionUltimaEjecucion: '-',
-          tags: ['-'],
-          nombreTest: '-',
-          nombreRobot: '-',
-          errorUltimaEjecucion: true,
-        },
-      ],
-    },
-  ]);
+  const [tests, setTests] = React.useState<TestEntity[]>(test_list_mocked_data);
 
   const [tableCompression, setTableCompression] = React.useState('Lite');
   const { showMessage } = useSnackbarContext();
@@ -89,7 +68,8 @@ export const TestListContainer: React.FunctionComponent = () => {
   const handlePrint = () => {
     window.print();
   };
-  React.useEffect(() => {
+  /** TMP
+    React.useEffect(() => {
     getTestCollection().then((testDetail) => setTests(testDetail)); //initial
 
     const intervalId = setInterval(() => {
@@ -97,7 +77,8 @@ export const TestListContainer: React.FunctionComponent = () => {
     }, parseInt(refreshInterval));
 
     return () => clearInterval(intervalId);
-  }, []);
+  }, []);*/
+
   return (
     <>
       <Card>
@@ -191,7 +172,6 @@ export const TestListContainer: React.FunctionComponent = () => {
         </CardContent>
       </Card>
       <>
-        {' '}
         {tests.map((entry, index) => {
           return (
             <Accordion

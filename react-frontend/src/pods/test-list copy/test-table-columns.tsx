@@ -48,7 +48,7 @@ export const testTableColumns = useMemo(
           size: 100,
           Cell: ({ cell, row }) => {
             const box_result =
-              cell.getValue() && row.original.total 0 ? (
+              cell.getValue() && row.original.total == 0 ? (
                 <Box
                   component="span"
                   sx={(theme) => ({
@@ -65,7 +65,7 @@ export const testTableColumns = useMemo(
                 >
                   <Close />
                 </Box>
-              ) : !cell.getValue() && row.original.total 0 ? (
+              ) : !cell.getValue() && row.original.total === 0 ? (
                 <Box
                   component="span"
                   sx={(theme) => ({
@@ -204,7 +204,6 @@ export const testTableColumns = useMemo(
             </Box>
           ),
         },
-
       ],
     },
     {

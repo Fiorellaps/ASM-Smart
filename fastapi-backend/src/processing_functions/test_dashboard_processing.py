@@ -505,8 +505,10 @@ def process_url_failed(url_failed_list):
             decoded_label = url_classification_label_encoder.inverse_transform(predicted_labels)[0]
             processed_url_list.append(base_url)
             processed_url.append({"url": base_url,"class": decoded_label, "top_words": top_words})
+    #processed_url = [{'url': 'https://loc9.caixabank.es/GPeticiones', 'class': 'registro', 'top_words': ['errores', 'producidos', 'prestación', 'detectado', 'siguiente']}, 
+    #                 {'url': 'https://loc10.caixabank.es/GPeticiones', 'class': 'registro', 'top_words': ['errores', 'producidos', 'prestación', 'detectado', 'siguiente']}]       
     word_counter_dict = defaultdict(int)
-    
+
     for word, count in combined_counter.items():
         word_counter_dict[word] += count
     word_counter_dict_result = [{'text': word, 'value': count} for word, count in word_counter_dict.items()]
@@ -583,7 +585,7 @@ def generate_test_dashboard_data(test_id):
     start_time = time.time()
 
     # Calcular fecha inicio y fecha fin
-    datetime_ini = datetime.now() - timedelta(days=1)
+    datetime_ini = datetime.now() - timedelta(hours=2)
     datetime_ini = str(datetime_ini) 
     datetime_ini = datetime.strptime(datetime_ini, "%Y-%m-%d %H:%M:%S.%f")
     datetime_ini_str = datetime_ini.strftime("%Y-%m-%d %H:%M:%S")

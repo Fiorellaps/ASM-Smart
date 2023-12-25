@@ -23,96 +23,24 @@ import { getTestView } from './test-view.repository';
 import { TestDashboardContainer } from 'pods/test-view/testsDashboard/test-dashboard.container';
 import { StepsDashboardContainer } from 'pods/test-view/stepsDashboard/steps-dashboard.container';
 import { AdvancedDashboardContainer } from './advancedDashboard/advanced-dashboard.container';
+import { test_view_mocked_data } from './test-view.mock.data';
 
 export const TestViewContainer: React.FunctionComponent = () => {
   const { id } = useParams<{ id: string }>();
-  const [dashboardData, setDashboardData] = useState({
-    porcentaje_disponibilidad_current: '4.07%',
-    correcto_current: 9,
-    erroneo_current: 212,
-    total_current: 221,
-    tiempo_medio_ejecucion_current: 13.93,
-    porcentaje_disponibilidad_previous: '3.06%',
-    correcto_previous: 7,
-    erroneo_previous: 222,
-    total_previous: 229,
-    tiempo_medio_ejecucion_previous: 13.36,
-    porcentaje_disponibilidad_difference: 1.01,
-    correcto_difference: 2,
-    erroneo_difference: -10,
-    total_difference: -8,
-    common_har_error: {},
-    urlFailedTable: [],
-    wordCloudData: [],
-    mirrorChartData: [],
-    har_table_list: [],
-    tiempo_medio_ejecucion_difference: 0.57,
-    mixedChartCategories: ['18-11-2023 09'],
-    mixedChartData: [
-      {
-        name: 'Disponibilidad',
-        type: 'area',
-        data: [0.0],
-      },
-      {
-        name: 'Tiempo',
-        type: 'line',
-        data: [14.26],
-      },
-    ],
-    groupedResultTests: [
-      {
-        fecha: '18-11-2023 09',
-        disponibilidad: 0.0,
-        duracionMedia: 14.26,
-        totalErrores: 6,
-        totalMuestras: 6,
-      },
-      {
-        fecha: '18-11-2023 10',
-        disponibilidad: 0.0,
-        duracionMedia: 14.05,
-        totalErrores: 9,
-        totalMuestras: 9,
-      },
-    ],
-    timeChartSeries: [
-      {
-        name: 'Paso 1',
-        data: [0.15],
-      },
-    ],
-
-    resultSteps: [],
-    timeCategories: ['18-11-2023 09'],
-    availabilityChartSeries: [
-      {
-        name: 'Paso 1',
-        data: [100.0],
-      },
-    ],
-    radialChartLabels: ['Paso 1'],
-    radialChartSeries: [100.0],
-    pyramidChartLabels: ['Paso 1'],
-    pyramidChartSeries: [{ name: '', data: [0] }],
-    idTest: 'xxx',
-    nombreTest: 'xxxx',
-    tags: ['test', 'test'],
-    entorno: 'xxxx',
-  });
+  const [dashboardData, setDashboardData] = useState(test_view_mocked_data);
   const [tabValue, setTabValue] = useState('1');
 
   const handleChangeTabValue = (event, newValue) => {
     setTabValue(newValue);
   };
 
-  React.useEffect(() => {
+  /**React.useEffect(() => {
     getTestView(id).then((dashboardDataResponse) => {
       if (dashboardDataResponse) {
         setDashboardData(dashboardDataResponse);
       }
     });
-  }, []);
+  }, []);*/
 
   return (
     <>

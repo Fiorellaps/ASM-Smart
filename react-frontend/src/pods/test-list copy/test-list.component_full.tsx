@@ -227,7 +227,7 @@ export const TestListFullComponent: React.FC<Props> = (props) => {
               </Box>
             ),
           },
-
+        ],
       },
       {
         id: 'tiempos',
@@ -315,7 +315,6 @@ export const TestListFullComponent: React.FC<Props> = (props) => {
           showColumnFilters: true,
           columnVisibility: {
             tags: true,
-
           },
           sorting: [{ id: 'fechaUltimaEjecucion', desc: true }],
         }}

@@ -28,6 +28,7 @@ import DonutChart from 'pods/submodule-list/donut_chart';
 import BasicTable from 'pods/submodule-list/summary_table';
 import HorizontalBarChart from './horizontal_bar_chart';
 import StatCard from './stat_card';
+import { submodule_list_mocked_data } from './submodule-list.mock.data';
 
 export const SubmoduleListContainer: React.FunctionComponent = () => {
   const initialStartDate = dayjs().subtract(1, 'day').toDate();
@@ -36,47 +37,9 @@ export const SubmoduleListContainer: React.FunctionComponent = () => {
   const [selectedEndDate, setSelectedEndDate] = useState(initialEndDate);
 
   const [refreshInterval, setRefreshInterval] = useState('30000');
-  const [dashboardData, setDashboardData] = useState({
-    total_errors_names: ['Sin error', 'Con error'],
-    total_errors_list: [0, 0],
-    bar_enviroments_list: ['Selenium'],
-    bar_enviroments_values_list: [{ data: [0] }],
-    total_number_errors_stat: 0,
-    total_number_inactive_stat: 0,
-    by_enviroment_donut_chart_data: [
-      { Selenium: { 'Sin error': 0, 'Con error': 0 } },
-    ],
-    by_tag_donut_chart_data: [
-      { Robot: { 'Sin error': 0, 'Con error': 0 } },
-      { Selenium: { 'Sin error': 0, 'Con error': 0 } },
-      { Silk: { 'Sin error': 0, 'Con error': 0 } },
-      { LANPROV: { 'Sin error': 0, 'Con error': 0 } },
-      { BET: { 'Sin error': 0, 'Con error': 0 } },
-      { Chrome: { 'Sin error': 0, 'Con error': 0 } },
-      { HBL: { 'Sin error': 0, 'Con error': 0 } },
-      { Jubilacion: { 'Sin error': 0, 'Con error': 0 } },
-    ],
-    bar_robots_list: [
-      'RobotSeleniumSilk40',
-      'RobotSeleniumSilk28',
-      'RobotSeleniumPlantillaNuevaCaixa',
-      'RobotSeleniumSilk33',
-      'RobotSeleniumSilk2',
-    ],
-    bar_robots_values_list: [{ data: [0, 0, 0, 0, 0] }],
-    by_robot_donut_chart_data: [
-      { RobotSeleniumSilk40: { 'Sin error': 0, 'Con error': 0 } },
-      { RobotSeleniumSilk28: { 'Sin error': 0, 'Con error': 9 } },
-      {
-        RobotSeleniumPlantillaNuevaCaixa: {
-          'Sin error': 0,
-          'Con error': 0,
-        },
-      },
-      { RobotSeleniumSilk33: { 'Sin error': 0, 'Con error': 0 } },
-      { RobotSeleniumSilk2: { 'Sin error': 0, 'Con error': 0 } },
-    ],
-  });
+  const [dashboardData, setDashboardData] = useState(
+    submodule_list_mocked_data
+  );
 
   const StyledDateTimePicker = styled(DateTimePicker)({
     marginLeft: '5px',
@@ -159,12 +122,13 @@ export const SubmoduleListContainer: React.FunctionComponent = () => {
     }
   }, [refreshInterval]);*/
 
-  useEffect(() => {
+  /**useEffect(() => {
     const fetchData = async () => {
       const url = `http://localhost:8000/get_dashboard/`;
 
       const response = await fetch(url);
       const json = await response.json();
+      console.log('json', json);
       setDashboardData(json);
     };
 
@@ -176,7 +140,7 @@ export const SubmoduleListContainer: React.FunctionComponent = () => {
 
     return () => clearInterval(intervalId);
 
-    /*const promise = new Promise((resolve, reject) => {
+    /const promise = new Promise((resolve, reject) => {
       fetch(url, {
         method: 'GET',
       })
@@ -195,14 +159,14 @@ export const SubmoduleListContainer: React.FunctionComponent = () => {
         });
     });*/
 
-    /*fetch(url, {
+  /*fetch(url, {
       method: 'GET',
     })
       .then((response) => console.log(response.json()))
       .catch((error) => {
         console.error('Error recogiendo usuarios de la base de datos:', error);
-      });*/
-  }, []);
+      });
+  }, []);*/
 
   const getMillisecondsFromRefreshInterval = (interval) => {
     switch (interval) {

@@ -28,19 +28,28 @@ export const LoginContainer: React.FunctionComponent = () => {
       setUserSession(userSession);
       navigate(routes.tests);
     } else {
-      showMessage(literals.messages.errors.invalidLogin, 'error');
+      console.log(loginResult);
+      //showMessage(literals.messages.errors.invalidLogin, 'error');
+      const userSession = mapLoginResponseToUserSession();
+      userSession.userName = 'test';
+      userSession.tags = ['test'];
+      userSession.roles = ['admim'];
+      userSession.id = '34';
+      userSession.active = true;
+      setUserSession(userSession);
+      navigate(routes.tests);
     }
   };
 
   const handleLogin = (login: Login) => {
-    trackPromise(isValidLogin(login.username, login.password)).then(
+    const user = { userName: '' };
+    loginSucceeded(user);
+
+    /*trackPromise(isValidLogin(login.username, login.password)).then(
       (result) => {
-        /*if (result) {*/
         loginSucceeded(result);
-        //}
       }
-      /*loginSucceeded*/
-    );
+    );*/
   };
 
   return <LoginComponent onLogin={handleLogin} />;
