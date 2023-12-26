@@ -46,6 +46,10 @@ const PyramidChartSteps = ({ series, categories, title }) => {
       dropShadow: {
         enabled: true,
       },
+      style: {
+        colors: ['black'],
+        fontSize: '14px',
+      },
     },
     xaxis: {
       categories: categories,
@@ -53,6 +57,7 @@ const PyramidChartSteps = ({ series, categories, title }) => {
     title: {
       text: title || 'Pyramid  Chart',
       align: 'center',
+      fontFamily: 'Arial, sans-serif',
     },
     legend: {
       show: false,
